@@ -24,12 +24,12 @@ onMounted(() => {
 <style scoped>
 .product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-columns: repeat(auto-fill, 290px);
   grid-template-rows: repeat(auto-fill, 300px);
   grid-gap: 16px;
 
   width: 100%;
-  max-height: 93vh;
+  max-height: 90.6vh;
   overflow-y: scroll;
 }
 </style>
