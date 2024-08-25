@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-
+import { RouterView } from 'vue-router'
+import CartBtn from './components/CartBtn.vue';
 </script>
 
 <template>
   <header>
-123
+    <img src="@/assets/logo.svg" />
+    <CartBtn />
   </header>
 
   <RouterView />
@@ -14,6 +15,9 @@ import { RouterLink, RouterView } from 'vue-router'
 <style scoped>
 header {
   line-height: 1.5;
+  height: 60px;
+  padding-left: 20px;
+  padding-left: 20px;
 }
 
 .logo {

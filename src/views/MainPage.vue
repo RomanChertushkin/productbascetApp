@@ -22,6 +22,7 @@ export default defineComponent({
 <style scoped>
 .main-content {
     display: flex;
-    padding: 20px;
+    padding: 20px 0 0 20px;
+    gap: 20px;
 }
 </style>

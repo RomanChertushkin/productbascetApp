@@ -6,9 +6,8 @@
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue';
 
-// Определение props
-const props = defineProps<{
-    modelValue: string | number;
+defineProps<{
+    modelValue: string | number | null;
     type?: string;
     placeholder?: string;
     disabled?: boolean;

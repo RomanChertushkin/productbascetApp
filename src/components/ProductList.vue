@@ -1,41 +1,35 @@
 <template>
-    <div class="product-list">
-      <div v-for="product in products" :key="product.id" class="product-item">
-        <ProductCard :product="product" />
-      </div>
-    </div>
-  </template>
-  
-  <script lang="ts">
-  import { defineComponent, ref } from 'vue';
-  import ProductCard from './ProductCard.vue';
-  
-  export default defineComponent({
-    name: 'ProductList',
-    components: {
-      ProductCard,
-    },
-    setup() {
-      const products = ref([
-        { id: 1, name: 'Товар 1', image: 'image1.png' },
-        { id: 2, name: 'Товар 2', image: 'image2.png' },
-        { id: 3, name: 'Товар 3', image: 'image3.png' },
-        // Добавьте больше товаров по необходимости
-      ]);
-  
-      return {
-        products,
-      };
-    },
-  });
-  </script>
-  
-  <style scoped>
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-left: 20px;
-  }
-  </style>
-  
+  <div class="product-list">
+    <ProductCard v-for="product in products" :key="product.id" :product="product" />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { onMounted, computed } from 'vue';
+import ProductCard from './ProductCard.vue';
+import { useProductStore } from '@/stores/productStore';
+import type { Product } from '@/types/productType';
+
+const productStore = useProductStore();
+
+const products = computed<Product[]>(() => {
+  return productStore.filteredProducts;
+});
+
+onMounted(() => {
+  productStore.fetchProducts();
+});
+</script>
+
+<style scoped>
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-rows: repeat(auto-fill, 300px);
+  grid-gap: 16px;
+
+  width: 100%;
+  max-height: 93vh;
+  overflow-y: scroll;
+}
+</style>
