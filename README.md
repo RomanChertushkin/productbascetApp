@@ -37,3 +37,8 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Password and Login for app
+
+password - admin
+login - admin@email.com
