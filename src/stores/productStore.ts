@@ -45,7 +45,9 @@ export const useProductStore = defineStore('product', {
             return this.product?.id == e.productId
           }) as number
 
-          this.cart.products[cardProductIndex]['realProduct'] = this.product
+          if (this.cart) {
+            this.cart.products[cardProductIndex]['realProduct'] = this.product
+          }
         }
       } catch (error: any) {
         this.error = error.message
