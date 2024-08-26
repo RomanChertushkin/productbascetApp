@@ -2,15 +2,17 @@ import { defineStore } from 'pinia'
 import { apiService } from '@/services/productService'
 import type { ProductState } from '@/types/productStateType'
 import type { Product } from '@/types/productType'
-import type { Cart, CartProduct } from '@/types/cartType'
+import type { Cart } from '@/types/cartType'
 
 export const useProductStore = defineStore('product', {
   state: (): ProductState => ({
     products: [],
     filteredProducts: [],
+    product: null,
     categories: [],
     cart: null,
     loading: false,
+    cartLoaded: false,
     error: null
   }),
 
@@ -23,6 +25,28 @@ export const useProductStore = defineStore('product', {
         const products = await apiService.get<Product[]>('/products')
         this.products = products
         this.filteredProducts = products
+      } catch (error: any) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async fetchProduct(id: number, addToCart: boolean = false) {
+      this.loading = true
+      this.error = null
+
+      try {
+        const product = await apiService.get<Product>('/products/' + id)
+        this.product = product
+
+        if (addToCart) {
+          const cardProductIndex = this.cart?.products.findIndex((e) => {
+            return this.product?.id == e.productId
+          }) as number
+
+          this.cart.products[cardProductIndex]['realProduct'] = this.product
+        }
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -51,6 +75,7 @@ export const useProductStore = defineStore('product', {
       try {
         const carts = await apiService.get<Cart>('/carts/1')
         this.cart = carts
+        this.cartLoaded = true
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -58,15 +83,19 @@ export const useProductStore = defineStore('product', {
       }
     },
 
-    async editCart(product: Product) {
+    async editCart(cart: Cart, fetchRealProduct: boolean = false, productId: number = 0) {
       this.loading = true
       this.error = null
 
-      this.cart?.products.push({ productId: product.id, quantity: 1 })
+      console.log(123)
 
       try {
-        const carts = await apiService.put<Cart>('/carts/1', this.cart)
-        this.cart = carts
+        const cartObj = await apiService.put<Cart>('/carts/1', cart)
+        this.cart = cartObj
+
+        if (fetchRealProduct && productId) {
+          this.fetchProduct(productId, true)
+        }
       } catch (error: any) {
         this.error = error.message
       } finally {

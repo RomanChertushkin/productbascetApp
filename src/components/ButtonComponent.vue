@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, watch, ref } from 'vue';
+import { computed, watch, ref } from 'vue';
 
 const props = defineProps<{
     type?: 'button' | 'submit' | 'reset';

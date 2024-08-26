@@ -1,28 +1,9 @@
 <template>
-    <div class="main-content">
-        <FilterPanel />
-        <ProductList />
-    </div>
+    <FilterPanel />
+    <ProductList />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import FilterPanel from '@/components/FilterPanel.vue';
 import ProductList from '@/components/ProductList.vue';
-
-export default defineComponent({
-    name: 'App',
-    components: {
-        FilterPanel,
-        ProductList,
-    },
-});
 </script>
-
-<style scoped>
-.main-content {
-    display: flex;
-    padding: 20px 0 0 20px;
-    gap: 20px;
-}
-</style>

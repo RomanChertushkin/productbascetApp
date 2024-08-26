@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 import CartBtn from './components/CartBtn.vue';
+
+const router = useRouter();
 </script>
 
 <template>
-  <header>
-    <img src="@/assets/logo.svg" />
+  <header v-if="router.currentRoute.value.meta.headerNeeded">
+    <img src="@/assets/logo.svg" class="logo" @click="router.push({ name: 'main' })" />
     <CartBtn />
   </header>
-
-  <RouterView />
+  <main class="main-content">
+    <RouterView />
+  </main>
 </template>
 
 <style scoped>
@@ -22,31 +25,13 @@ header {
 
 .logo {
   display: block;
-  margin: 0 auto 2rem;
+  cursor: pointer;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
+.main-content {
+  display: flex;
+  padding: 20px 0 0 20px;
+  gap: 20px;
+  height: 92vh;
 }
 </style>

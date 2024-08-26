@@ -13,6 +13,7 @@
 import { useProductStore } from '@/stores/productStore';
 import type { Product } from '@/types/productType';
 import ButtonComponent from './ButtonComponent.vue';
+import type { Cart } from '@/types/cartType';
 
 const props = defineProps<{
   product: Product,
@@ -21,7 +22,12 @@ const props = defineProps<{
 const productStore = useProductStore();
 
 const editCart = () => {
-  productStore.editCart(props.product)
+  const cartObj: Cart | null = productStore.cart;
+  cartObj?.products.push({
+    productId: props.product.id,
+    quantity: 1
+  })
+  productStore.editCart(cartObj as Cart, true, props.product.id);
 }
 </script>
 
